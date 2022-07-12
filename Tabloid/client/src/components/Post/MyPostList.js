@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getAllPostsByUser } from "../../modules/postManager";
+import { getToken } from "../../modules/authManager";
 
 export const MyPostList = () => {
     let [posts, setPosts] = useState([])
 
     useEffect(() => {
-        getAllPostsByUser().then(data => setPosts(data))
+        getToken().then(data => console.log(data))
+        getAllPostsByUser(3).then(data => console.log(data))
     },[])
 
     return (
