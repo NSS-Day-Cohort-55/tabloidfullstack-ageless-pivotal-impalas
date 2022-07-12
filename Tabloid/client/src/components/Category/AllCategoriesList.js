@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { getAllCategories } from "../../modules/catManager";
+import { getAllCategories, addCategory } from "../../modules/catManager";
 import './AllCategoriesList.scss'
 
 export const AllCategoriesList = () => {
     let [categories, setCategories] = useState([])
+    let [newCategory, setNewCategory] = useState("")
 
     useEffect(() => {
         getAllCategories().then(data => setCategories(data))
     }, [])
+
+    const handleInput = event => {
+        setNewCategory(event.target.value)
+    }
+
+    const add = () => {
+        addCategory(newCategory).then(getAllCategories().then(data => setCategories(data)))
+    }
 
     return (
         <>
@@ -20,8 +29,8 @@ export const AllCategoriesList = () => {
                     )
                 })}
                 <section className="add">
-                    <input placeholder="Add a new category"></input>
-                    <button>SAVE</button>
+                    <input placeholder="Add a new category" value={newCategory} onChange={handleInput}></input>
+                    <button onClick={add}>SAVE</button>
                 </section>
             </section>
 
