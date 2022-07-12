@@ -33,7 +33,7 @@ namespace Tabloid.Repositories
             }
         }
 
-        public void Add(string name)
+        public void Add(string name) 
         {
             var conn = Connection;
             {

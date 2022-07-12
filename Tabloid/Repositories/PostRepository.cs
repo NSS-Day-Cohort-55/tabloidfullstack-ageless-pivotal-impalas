@@ -65,9 +65,45 @@ namespace Tabloid.Repositories
         public Post GetById(int id)
         {
             throw new NotImplementedException();
-
         }
 
+        public List<Post> GetAllByUserId(int id)
+        {
+            var conn = Connection;
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                {
+                    cmd.CommandText = @"SELECT Id, Title, Content, ImageLocation, CreateDateTime, 
+                                        PublishDateTime, IsApproved, CategoryId, UserProfileId
+                                        FROM Post
+                                        WHERE UserProfileId = @Id";
+                    cmd.Parameters.AddWithValue("Id", id);
+                    var reader = cmd.ExecuteReader();
+
+                    List<Post> postList = new();
+                    while(reader.Read())
+                    {
+                        Post post = new()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title")),
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            ImageLocation = reader.GetString(reader.GetOrdinal("ImageLocation")),
+
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDatetime")),
+                            IsApproved = true,
+                            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"))
+                        };
+
+                        postList.Add(post);
+                    }
+                    return postList;
+                }
+            }
+        }
         public void Add(Post post)
         {
             throw new NotImplementedException();
