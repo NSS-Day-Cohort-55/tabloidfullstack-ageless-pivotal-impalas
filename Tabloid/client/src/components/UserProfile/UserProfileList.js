@@ -5,9 +5,7 @@ import { getAllUserProfiles } from "../../modules/userProfileManager";
 const UserProfileList = () => {
     const [userProfiles, setUserProfiles] = useState([]);
 
-    console.log("Inside UserProfileList");
     const getUserProfiles = () => {
-        console.log("calling API");
         getAllUserProfiles().then(userProfilesFromAPI => setUserProfiles(userProfilesFromAPI));
     };
 

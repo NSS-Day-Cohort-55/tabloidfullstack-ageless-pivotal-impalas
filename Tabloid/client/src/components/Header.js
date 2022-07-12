@@ -30,7 +30,7 @@ export default function Header({ isLoggedIn }) {
             }
           </Nav>
           <Nav className="mr-auto" navbar>
-            { /* When isLoggedIn === true, we will render the User Profile link */}
+            { /* When isLoggedIn === true, we will render the UserProfile link */}
             {isLoggedIn &&
               <NavItem>
                 <NavLink tag={RRNavLink} to="/userprofile">UserProfile</NavLink>
