@@ -1,0 +1,89 @@
+.all-categories-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.all-categories-list img {
+  height: 80px;
+  width: 80px;
+  background-color: #db534b;
+  border-radius: 50%;
+}
+
+.all-categories-list .item {
+  width: 500px;
+  height: 55px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid lightgray;
+  border-bottom: none;
+  padding: 1em;
+  font-weight: 100;
+}
+
+.all-categories-list .item:last-child {
+  border-bottom: 1px solid lightgray;
+}
+
+.all-categories-list .button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.all-categories-list .edit {
+  margin: 6px;
+  font-size: small;
+  border: none;
+  background-color: inherit;
+  font-weight: 400;
+  font-variant-caps: all-small-caps;
+}
+
+.all-categories-list .edit:hover {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.all-categories-list .delete {
+  margin: 6px;
+  font-size: small;
+  width: 70px;
+  color: white;
+  background-color: #db534b;
+  border: none;
+  font-variant-caps: all-small-caps;
+  padding: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.all-categories-list .delete:hover {
+  color: black;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+/*# sourceMappingURL=AllCategoriesList.css.map */

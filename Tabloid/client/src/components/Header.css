@@ -1,0 +1,33 @@
+#nav {
+  border-top: 1px solid lightgray;
+  font-variant-caps: all-small-caps;
+}
+
+#nav img {
+  height: 30px;
+  padding: 0;
+  margin: 0;
+}
+
+#nav nav {
+  height: 70px;
+}
+
+#nav .nav-link {
+  color: #6c767d !important;
+}
+
+#nav .nav-link:hover {
+  color: white !important;
+}
+
+#nav .navbar-brand {
+  color: white !important;
+  margin: 0;
+  padding-left: 0;
+}
+
+#nav .active {
+  color: white !important;
+}
+/*# sourceMappingURL=Header.css.map */
