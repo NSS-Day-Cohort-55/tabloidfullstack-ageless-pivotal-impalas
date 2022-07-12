@@ -10,14 +10,23 @@ export const AllCategoriesList = () => {
     }, [])
 
     return (
-        <section className="all-categories-list">
-            <img src="quill-logo.png"></img>
-            <h3>CATEGORY MANAGEMENT</h3>
-            {categories.map(c => {
-                return (
-                    <div className="item" key={c.id}>{c.name} <div className="button-container"><button className="edit">EDIT</button><button className="delete">DELETE</button></div></div>
-                )
-            })}
-        </section>
+        <>
+            <section className="all-categories-list">
+                <img src="quill-logo.png"></img>
+                <h3>CATEGORY MANAGEMENT</h3>
+                {categories.map(c => {
+                    return (
+                        <div className="item" key={c.id}>{c.name} <div className="button-container"><button className="edit">EDIT</button><button className="delete">DELETE</button></div></div>
+                    )
+                })}
+                <section className="all-categories-list">
+                    <div className="add">
+                        <input placeholder="Add a new category"></input>
+                        <button>SAVE</button>
+                    </div>
+                </section>
+            </section>
+
+        </>
     )
 }

@@ -86,4 +86,9 @@
   border: 2px solid white;
   border-radius: 5px;
 }
+
+.all-categories-list .add {
+  margin-top: 2em;
+  width: 100%;
+}
 /*# sourceMappingURL=AllCategoriesList.css.map */
