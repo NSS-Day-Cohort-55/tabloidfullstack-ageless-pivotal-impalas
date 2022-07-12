@@ -7,7 +7,6 @@ export const PostList = () => {
 
     const getPosts = () => {
         getAllPosts().then(allPosts => setPosts(allPosts))
-        getAllPosts().then(r => console.log(r))
     }
 
     useEffect(() => {
