@@ -1,0 +1,16 @@
+#nav {
+    .active {
+        color: white !important;
+    }
+
+    .inactive {
+        color: #6c767d !important;
+    }
+
+    .nav-link {
+        color: #6c767d !important;
+        &:hover{
+            color: white !important;
+        }
+    }
+}

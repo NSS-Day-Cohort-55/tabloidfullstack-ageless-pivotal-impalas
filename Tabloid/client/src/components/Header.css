@@ -1,0 +1,16 @@
+#nav .active {
+  color: white !important;
+}
+
+#nav .inactive {
+  color: #6c767d !important;
+}
+
+#nav .nav-link {
+  color: #6c767d !important;
+}
+
+#nav .nav-link:hover {
+  color: white !important;
+}
+/*# sourceMappingURL=Header.css.map */
