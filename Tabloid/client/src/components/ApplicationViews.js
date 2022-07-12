@@ -4,6 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 import { PostList } from "./Post/PostList";
+import { AllCategoriesList } from "./Category/AllCategoriesList";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -20,6 +21,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="*" element={<p>Whoops, nothing here...</p>} />
+          <Route path="categories" element={<AllCategoriesList/>}></Route>
         </Route>
       </Routes>
     </main >
