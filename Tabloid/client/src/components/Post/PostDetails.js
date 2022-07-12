@@ -8,6 +8,7 @@ export const PostDetails = () => {
 
     const getPost = () => {
         getPostById(id).then(r => setPost(r))
+        getPostById(id).then(r => console.log(r))
     }
 
     useEffect(() => {
@@ -16,7 +17,11 @@ export const PostDetails = () => {
 
     return (
         <>
-        <div><img src={``}/></div>
+            <div>{post?.imageLocation ? <img src={`${post.imageLocation}`} alt="banner" /> : ''}</div>
+            <h1>{post?.title}</h1>
+            <h2>{post?.userProfile.displayName}</h2>
+            <p>{post?.content}</p>
+            <p>{post?.publishDateTime}</p>
         </>
     )
 }
