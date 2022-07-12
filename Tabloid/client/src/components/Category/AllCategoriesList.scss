@@ -1,0 +1,66 @@
+$red: #db534b;
+
+.all-categories-list {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    img{
+        height: 80px;
+        width: 80px;
+        background-color: $red;
+        border-radius: 50%;
+    }
+    .item{
+        width: 500px;
+        height: 55px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid lightgray;
+        border-bottom: none;
+        padding: 1em;
+        font-weight: 100;
+    }
+
+    .item:last-child{
+        border-bottom: 1px solid lightgray;;
+    }
+
+    .button-container{
+        display: flex;
+
+    }
+
+    .edit{
+        margin: 6px;
+        font-size: small;
+        border: none;
+        background-color: inherit;
+        font-weight: 400;
+        font-variant-caps: all-small-caps;
+        &:hover{
+            text-decoration: underline;
+            font-weight: bold;
+        }
+    }
+
+    .delete{
+        margin: 6px;
+        font-size: small;
+        width: 70px;
+        color: white;
+        background-color: $red;
+        border: none;
+        font-variant-caps: all-small-caps;
+        padding: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover{
+            color: black;
+            font-weight: bold;
+            border: 2px solid white;
+            border-radius: 5px;
+        }
+    }
+}

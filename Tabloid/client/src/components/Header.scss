@@ -1,16 +1,28 @@
 #nav {
-    .active {
-        color: white !important;
+    border-top: 1px solid lightgray;
+    font-variant-caps: all-small-caps;
+    img {
+        height: 30px;
+        padding: 0;
+        margin: 0;
     }
-
-    .inactive {
-        color: #6c767d !important;
+    nav {
+        height: 70px;
     }
 
     .nav-link {
         color: #6c767d !important;
-        &:hover{
+        &:hover {
             color: white !important;
         }
+    }
+    .navbar-brand {
+        color: white !important;
+        margin: 0;
+        padding-left: 0;
+    }
+
+    .active {
+        color: white !important;
     }
 }
