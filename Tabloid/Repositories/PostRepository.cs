@@ -64,8 +64,43 @@ namespace Tabloid.Repositories
 
         public Post GetById(int id)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT p.Id, Title, Content, p.ImageLocation, 
+                                               p.CreateDateTime, PublishDateTime, IsApproved, 
+                                               CategoryId, UserProfileId, up.DisplayName
+                                          FROM Post p
+                                     LEFT JOIN Userprofile up ON p.UserProfileId = up.Id
+                                         WHERE p.Id = @id";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    var reader = cmd.ExecuteReader();
+                    Post post = null;
+                    if (reader.Read())
+                    {
+                        post = new Post()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Title = DbUtils.GetString(reader, "Title"),
+                            Content = DbUtils.GetString(reader, "Content"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                            PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
+                            IsApproved = reader.GetBoolean(reader.GetOrdinal("IsApproved")),
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            UserProfile = new UserProfile()
+                            {
+                                DisplayName = DbUtils.GetString(reader, "DisplayName")
+                            }
 
+                        };
+                    }
+                    return post;
+                }
+            }
         }
 
         public void Add(Post post)
