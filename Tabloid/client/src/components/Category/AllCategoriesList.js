@@ -19,11 +19,9 @@ export const AllCategoriesList = () => {
                         <div className="item" key={c.id}>{c.name} <div className="button-container"><button className="edit">EDIT</button><button className="delete">DELETE</button></div></div>
                     )
                 })}
-                <section className="all-categories-list">
-                    <div className="add">
-                        <input placeholder="Add a new category"></input>
-                        <button>SAVE</button>
-                    </div>
+                <section className="add">
+                    <input placeholder="Add a new category"></input>
+                    <button>SAVE</button>
                 </section>
             </section>
 
