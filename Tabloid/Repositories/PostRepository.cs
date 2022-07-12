@@ -22,9 +22,11 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = @"SELECT p.Id, Title, Content, p.ImageLocation, 
                                                p.CreateDateTime, PublishDateTime, IsApproved, 
-                                               CategoryId, UserProfileId, up.DisplayName
+                                               CategoryId, UserProfileId, up.DisplayName,
+                                               c.Name AS CategoryName
                                           FROM Post p
                                      LEFT JOIN Userprofile up ON p.UserProfileId = up.Id
+                                     LEFT JOIN Category c on p.CategoryId = c.Id
                                          WHERE IsApproved = 'TRUE'
                                            AND PublishDateTime < GETDATE()
                                       ORDER BY PublishDateTime DESC";
@@ -47,6 +49,10 @@ namespace Tabloid.Repositories
                                 UserProfile = new UserProfile()
                                 {
                                     DisplayName = DbUtils.GetString(reader, "DisplayName")
+                                },
+                                Category = new Category()
+                                {
+                                    Name = DbUtils.GetString(reader, "CategoryName")
                                 }
                             });
                         }
