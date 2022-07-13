@@ -74,10 +74,11 @@ namespace Tabloid.Repositories
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 {
-                    cmd.CommandText = @"SELECT Id, Title, Content, ImageLocation, CreateDateTime, 
-                                        PublishDateTime, IsApproved, CategoryId, UserProfileId
+                    cmd.CommandText = @"SELECT Post.Id, Title, Content, ImageLocation, CreateDateTime, 
+                                        PublishDateTime, IsApproved, CategoryId, UserProfileId, Name
                                         FROM Post
-                                        WHERE UserProfileId = @Id";
+                                        JOIN Category on Post.CategoryId = Category.Id
+                                        WHERE UserProfileId = 1";
                     cmd.Parameters.AddWithValue("Id", id);
                     var reader = cmd.ExecuteReader();
 
@@ -95,7 +96,11 @@ namespace Tabloid.Repositories
                             PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDatetime")),
                             IsApproved = true,
                             CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"))
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                            Category = new Category()
+                            {
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
                         };
 
                         postList.Add(post);

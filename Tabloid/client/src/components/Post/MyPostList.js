@@ -1,22 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { getAllPostsByUser } from "../../modules/postManager";
-import { getToken } from "../../modules/authManager";
+import { getUserByFirebaseId } from "../../modules/authManager";
+import './MyPostList.scss'
 
 export const MyPostList = () => {
     let [posts, setPosts] = useState([])
 
     useEffect(() => {
-        getToken().then(data => console.log(data))
-        getAllPostsByUser(3).then(data => console.log(data))
-    },[])
+        getUserByFirebaseId().then(user => getAllPostsByUser(user.id)).then(data => setPosts(data));
+    }, [])
 
     return (
-        <div>
-            {posts.map(p => {
-                <div>
-                    <h4>{p.title}</h4>
-                    <p>{p.content}</p>
-                </div>
+        <div className="post-container">
+            <h1>My Posts</h1>
+            {posts.map(post => {
+                console.log(post);
+                return (
+                    <div className="post-card" key={post.id}>
+                        <img src={post.imageLocation}></img>
+                        <div className="post-content">
+                            <div className="title-content">
+                                <h3>{post.title}</h3>
+                                <p>{post.content}</p>
+                            </div>
+                            <div className="misc">
+                                <p>Published on:</p>
+                                <span>{post.publishDateTime.split("T")[0]}</span>
+                                <p>Category:</p>
+                                <span>{post.category.name}</span>
+                                <p>Read Time:</p>
+                                <span>6 minutes</span>
+                            </div>
+                        </div>
+                    </div>
+                )
             })}
         </div>
     )
