@@ -37,8 +37,9 @@ namespace Tabloid.Controllers
 
         // POST api/<CategoryController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post(string name)
         {
+            _categoryRepository.Add(name);
         }
 
         // PUT api/<CategoryController>/5
