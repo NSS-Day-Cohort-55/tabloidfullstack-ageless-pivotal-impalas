@@ -1,0 +1,11 @@
+.red-text {
+    color: var(--red);
+}
+
+.grey-text {
+    color: var(--grey);
+}
+
+.center {
+    text-align: center;
+}

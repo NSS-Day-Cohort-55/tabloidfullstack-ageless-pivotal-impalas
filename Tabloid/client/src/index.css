@@ -1,3 +1,10 @@
+:root {
+  --red: #db534b;
+  --black: #343a40;
+  --grey: #6c767d;
+  --green: #5bb8a6;
+}
+
 main {
   margin: 2em;
 }
