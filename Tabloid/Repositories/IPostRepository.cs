@@ -10,5 +10,6 @@ namespace Tabloid.Repositories
         void Edit(Post post);
         List<Post> GetAll();
         Post GetById(int id);
+        List<Post> GetAllByUserId(int id);
     }
 }

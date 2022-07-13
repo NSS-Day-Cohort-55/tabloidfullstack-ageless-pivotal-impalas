@@ -13,6 +13,10 @@ const _doesUserExist = (firebaseUserId) => {
     }).then(resp => resp.ok));
 };
 
+export const getUserByFirebaseId = () => {
+    return fetch(`${_apiUrl}/${firebase.auth().currentUser.uid}`).then(res => res.json())
+}
+
 const _saveUser = (userProfile) => {
   return getToken().then((token) =>
     fetch(_apiUrl, {
