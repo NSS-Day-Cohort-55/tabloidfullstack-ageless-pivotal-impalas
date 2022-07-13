@@ -32,5 +32,7 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        //public void AddTag()
     }
 }
