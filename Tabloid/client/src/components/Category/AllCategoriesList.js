@@ -15,7 +15,7 @@ export const AllCategoriesList = () => {
     }
 
     const add = () => {
-        addCategory(newCategory).then(getAllCategories().then(data => setCategories(data)))
+        addCategory(newCategory).then(getAllCategories().then(data => setCategories(data))).then(() => setNewCategory(""))
     }
 
     return (
