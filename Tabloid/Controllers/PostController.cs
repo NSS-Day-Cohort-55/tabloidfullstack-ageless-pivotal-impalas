@@ -18,14 +18,25 @@ namespace Tabloid.Controllers
 
         [HttpGet]
         public IActionResult GetAll()
-        { 
+        {
             return Ok(_postRepository.GetAll());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/api/post/user/{id}")]
         public IActionResult GetAllByUserId(int id)
         {
             return Ok(_postRepository.GetAllByUserId(id));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var post = _postRepository.GetById(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return Ok(post);
         }
     }
 }
