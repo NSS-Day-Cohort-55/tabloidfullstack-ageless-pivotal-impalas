@@ -23,6 +23,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route path="posts">
             <Route index element={<PostList />} />
             <Route path=":id" element={<PostDetails />} />
+            <Route path="add" element={<p>butts</p>} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
