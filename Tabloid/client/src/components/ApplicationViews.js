@@ -10,6 +10,7 @@ import { TagDelete } from './Tag/TagDelete';
 import { PostList } from "./Post/PostList";
 import { AllCategoriesList } from "./Category/AllCategoriesList";
 import { PostDetails } from "./Post/PostDetails";
+import { CreatePostform } from "./Post/CreatePostForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -23,7 +24,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route path="posts">
             <Route index element={<PostList />} />
             <Route path=":id" element={<PostDetails />} />
-            <Route path="add" element={<p>butts</p>} />
+            <Route path="add" element={<CreatePostform />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
