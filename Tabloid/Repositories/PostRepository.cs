@@ -71,9 +71,10 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = @"SELECT p.Id, Title, Content, p.ImageLocation, 
                                                p.CreateDateTime, PublishDateTime, IsApproved, 
-                                               CategoryId, UserProfileId, up.DisplayName
+                                               CategoryId, UserProfileId, up.DisplayName, c.Name AS CategoryName
                                           FROM Post p
                                      LEFT JOIN Userprofile up ON p.UserProfileId = up.Id
+                                     LEFT JOIN Category c on p.CategoryId = c.Id
                                          WHERE p.Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
@@ -90,6 +91,10 @@ namespace Tabloid.Repositories
                             PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
                             IsApproved = reader.GetBoolean(reader.GetOrdinal("IsApproved")),
                             CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            Category = new Category()
+                            {
+                                Name = DbUtils.GetString(reader, "CategoryName")
+                            },
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             UserProfile = new UserProfile()
                             {
