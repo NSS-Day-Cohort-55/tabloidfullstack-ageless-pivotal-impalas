@@ -15,6 +15,7 @@ import { PostDetails } from "./Post/PostDetails";
 import {ReactionForm} from "./Reaction/ReactionForm";
 
 import { CreatePostform } from "./Post/CreatePostForm";
+import { EditPostForm } from "./Post/EditPostForm";
 
 
 export default function ApplicationViews({ isLoggedIn }) {
@@ -30,6 +31,7 @@ export default function ApplicationViews({ isLoggedIn }) {
             <Route index element={<PostList />} />
             <Route path=":id" element={<PostDetails />} />
             <Route path="add" element={<CreatePostform />} />
+            <Route path="edit/:id" element={<EditPostForm />} />
           </Route>
           <Route path="myposts" element={<MyPostList/>}></Route>
           <Route path="login" element={<Login />} />

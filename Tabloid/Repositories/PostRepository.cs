@@ -226,7 +226,30 @@ namespace Tabloid.Repositories
 
         public void Edit(Post post)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Post
+                                           SET   Title = @title, 
+                                               Content = @content, 
+                                         ImageLocation = @img,
+                                        CreateDateTime = @createDate, 
+                                       PublishDateTime = @publishDate, 
+                                            CategoryId = @category
+                                         WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@title", post.Title);
+                    DbUtils.AddParameter(cmd, "@content", post.Content);
+                    DbUtils.AddParameter(cmd, "@img", post.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@createDate", post.CreateDateTime);
+                    DbUtils.AddParameter(cmd, "@publishDate", post.PublishDateTime);
+                    DbUtils.AddParameter(cmd, "@category", post.CategoryId);
+                    DbUtils.AddParameter(cmd, "@id", post.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void Delete(int id)

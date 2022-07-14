@@ -77,5 +77,18 @@ namespace Tabloid.Controllers
             return CreatedAtAction("GetById", new { id = post.Id }, post);
 
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Edit(int id, Post post)
+        {
+            if (id != post.Id)
+            {
+                return BadRequest();
+            }
+
+            _postRepository.Edit(post);
+            return NoContent();
+
+        }
     }
 }
