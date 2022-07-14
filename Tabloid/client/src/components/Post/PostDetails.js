@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getPostById, addReactionToPost, getReactionPostList } from "../../modules/postManager";
 import { getAllReactions } from "../../modules/reactionManager";
-import { getPostById } from "../../modules/postManager";
 import { getPostTagsByPostId } from "../../modules/postTagManager";
+import { ReactionForm } from "../Reaction/ReactionForm";
 import "./PostDetails.css";
 
 export const PostDetails = () => {
@@ -38,9 +38,26 @@ export const PostDetails = () => {
 
     return (
         <>
+                
+            <div className="container justify-content-center">
+                <div className="d-flex justify-content-center">{post?.imageLocation ? <img src={`${post.imageLocation}`} alt="banner" /> : ''}</div>
+                <h1 className="center black-text">{post?.title.toUpperCase()}</h1>
+                <h3 className="center red-text">{post?.category.name}</h3>
+                <p className="grey-text"><em>tags: {tags?.map((t, index) => {
+                    return (
+                        (index ? ', ' : '') + t.name
+                    )
+                })} </em></p>
+                <div className="d-flex justify-content-between">
+                    <p className="grey-text">{post?.userProfile.displayName}</p>
+                    <p className="grey-text">{post?.publishDateTime}</p>
+                </div>
+                <p className="grey-text">{post?.content}</p>
+                
                 <div className="reactionList">
+                    
                     {reactions.map((r) => {
-                        
+                        return(
                             <button
                                 key={r.id}
                                 onClick={() => {
@@ -59,24 +76,11 @@ export const PostDetails = () => {
                                         (react) => react.reactionId === r.id && react.postId === post.id
                                     ).length
                                 }
-                            </button>
+                            </button>)
                         
                     })}
                 </div>
-            <div className="container justify-content-center">
-                <div className="d-flex justify-content-center">{post?.imageLocation ? <img src={`${post.imageLocation}`} alt="banner" /> : ''}</div>
-                <h1 className="center black-text">{post?.title.toUpperCase()}</h1>
-                <h3 className="center red-text">{post?.category.name}</h3>
-                <p className="grey-text"><em>tags: {tags?.map((t, index) => {
-                    return (
-                        (index ? ', ' : '') + t.name
-                    )
-                })} </em></p>
-                <div className="d-flex justify-content-between">
-                    <p className="grey-text">{post?.userProfile.displayName}</p>
-                    <p className="grey-text">{post?.publishDateTime}</p>
-                </div>
-                <p className="grey-text">{post?.content}</p>
+                
             </div>
         </>
     )
