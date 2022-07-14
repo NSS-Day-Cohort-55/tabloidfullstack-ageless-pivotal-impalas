@@ -38,5 +38,19 @@ namespace Tabloid.Controllers
             }
             return Ok(post);
         }
+
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            post.IsApproved = true;
+            if (post.PublishDateTime <= DateTime.MinValue)
+            {
+                post.PublishDateTime = DateTime.Now;
+            }
+            post.CreateDateTime = DateTime.Now;
+            _postRepository.Add(post);
+
+            return CreatedAtAction("GetById", new { id = post.Id }, post);
+        }
     }
 }

@@ -124,7 +124,7 @@ namespace Tabloid.Repositories
                     var reader = cmd.ExecuteReader();
 
                     List<Post> postList = new();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Post post = new()
                         {
@@ -152,7 +152,29 @@ namespace Tabloid.Repositories
         }
         public void Add(Post post)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Post (Title, Content, ImageLocation, 
+                                                          CreateDateTime, PublishDateTime, IsApproved,
+                                                          CategoryId, UserProfileId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@title, @content, @imagelocation, @createDateTime, @publishDateTime,
+                                                @isApproved, @categoryId, @userProfileId)";
+                    DbUtils.AddParameter(cmd, "@title", post.Title);
+                    DbUtils.AddParameter(cmd, "@content", post.Content);
+                    DbUtils.AddParameter(cmd, "@imagelocation", post.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@createDateTime", post.CreateDateTime);
+                    DbUtils.AddParameter(cmd, "@publishDateTime", post.PublishDateTime);
+                    DbUtils.AddParameter(cmd, "@isApproved", post.IsApproved);
+                    DbUtils.AddParameter(cmd, "@categoryId", post.CategoryId);
+                    DbUtils.AddParameter(cmd, "@userProfileId", post.UserProfileId);
+
+                    post.Id = (int)cmd.ExecuteScalar();
+                }
+            }
         }
 
         public void Edit(Post post)

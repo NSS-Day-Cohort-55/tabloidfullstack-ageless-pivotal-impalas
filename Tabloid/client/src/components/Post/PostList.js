@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllPosts } from "../../modules/postManager";
 import { Post } from "./Post";
 
 export const PostList = () => {
     const [posts, setPosts] = useState();
+    const navigate = useNavigate();
+
 
     const getPosts = () => {
         getAllPosts().then(allPosts => setPosts(allPosts))
+    }
+
+    const handleAddPostButton = () => {
+        navigate("/posts/add");
     }
 
     useEffect(() => {
@@ -17,6 +23,7 @@ export const PostList = () => {
     return (
         <>
             <div className="container">
+            <button type="button" className="btn btn-primary" onClick={handleAddPostButton}>Add Post</button>
                 <h2>Posts</h2>
                 <div className="row justify-content-center">
                     {
