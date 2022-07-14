@@ -29,7 +29,7 @@ export const addReaction = (reaction) => {
 			body: JSON.stringify(reaction),
 		}).then((resp) => {
 			if (resp.ok) {
-				return resp.json();
+				return ;
 			} else if (resp.status === 401) {
 				throw new Error("Unauthorized");
 			} else {

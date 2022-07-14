@@ -36,10 +36,13 @@ export default function Header({ isLoggedIn }) {
             {isLoggedIn &&
               <>
               <NavItem>
-                  <NavLink tag={RRNavLink} to="/Tag">Tags</NavLink>
+                  <NavLink tag={RRNavLink} to="/tag">Tags</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="posts">Posts</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="reaction">Reactions</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/categories" className={({ isActive }) => "nav-link" + (isActive ? "active" : "inactive")}>Categories</NavLink>

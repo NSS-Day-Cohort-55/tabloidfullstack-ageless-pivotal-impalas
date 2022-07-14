@@ -9,7 +9,7 @@ export const ReactionForm = () => {
 		Name: "",
         ImageLocation:"",
 	};
-	const [reaction, setReaction] = useState(reactionForm);
+	const [reaction, setReaction] = useState(ReactionForm);
 
 	const handleInputChange = (evt) => {
 		const value = evt.target.value;
