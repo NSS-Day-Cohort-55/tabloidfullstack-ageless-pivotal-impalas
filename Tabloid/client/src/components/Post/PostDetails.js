@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getPostById } from "../../modules/postManager";
-import { getPostTagsByPostId } from "../../modules/postTagManager";
+import { getPostTagsByPostId, CheckIfPtExists, addPt } from "../../modules/postTagManager";
 import "./PostDetails.css";
 import { getAllTags } from "../../modules/tagManager";
 
@@ -32,18 +32,28 @@ export const PostDetails = () => {
     }, []);
 
     useEffect(() => {
-        if (post != undefined) {
+        if (post !== undefined) {
             getPostTagsByPostId(post.id).then(data => setCurrentTags(data))
         }
     }, [post])
 
     const handleInput = event => {
         setselectedTag(event.target.value)
-        console.log(selectedTag);
     }
 
-    const addTag = () => {
-        if (selectedTag != "0") {
+    async function addTag() {
+        if (selectedTag !== "0") {
+            let alreadyExists = await CheckIfPtExists(post.id, selectedTag).then(data => data)
+            if (alreadyExists) {
+                window.alert("The post already has the selected tag.")
+            }
+            else {
+                let postTag = {
+                    postId: post.id,
+                    tagId: selectedTag
+                }
+                addPt(postTag).then(() => getPostTagsByPostId(post.id)).then(data => setCurrentTags(data))
+            }
             //use selectedTag and post.Id to create new PostTag and then update currentTags state
         }
         else {
