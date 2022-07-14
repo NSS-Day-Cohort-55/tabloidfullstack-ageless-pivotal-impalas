@@ -1,0 +1,51 @@
+.post-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post-card {
+    margin: 1.5em;
+    display: flex;
+    width: 900px;
+    height: fit-content;
+    justify-content: center;
+
+    .post-content{
+        display: flex;
+        border: 2px solid #f4f4f4;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        width: 900px;
+        border-left: none;
+    }
+    span {
+        margin-left: 15px;
+        font-size: small;
+    }
+    div {
+        padding: 12px;
+    }
+    p {
+        font-size: small;
+
+        width: 500px;
+    }
+    img {
+        width: 30%;
+    }
+    h3 {
+        margin-bottom: 1em;
+    }
+    .title-content {
+        margin: 0.7em;
+    }
+    .misc {
+        width: 120px;
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        margin: 0.7em;
+    }
+}

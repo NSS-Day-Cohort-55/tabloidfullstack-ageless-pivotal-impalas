@@ -4,13 +4,13 @@ $red: #db534b;
     display: flex;
     align-items: center;
     flex-direction: column;
-    img{
+    img {
         height: 80px;
         width: 80px;
         background-color: $red;
         border-radius: 50%;
     }
-    .item{
+    .item {
         width: 500px;
         height: 55px;
         display: flex;
@@ -22,29 +22,28 @@ $red: #db534b;
         font-weight: 100;
     }
 
-    .item:last-child{
-        border-bottom: 1px solid lightgray;;
+    .item:last-of-type {
+        border-bottom: 1px solid lightgray;
     }
 
-    .button-container{
+    .button-container {
         display: flex;
-
     }
 
-    .edit{
+    .edit {
         margin: 6px;
         font-size: small;
         border: none;
         background-color: inherit;
         font-weight: 400;
         font-variant-caps: all-small-caps;
-        &:hover{
+        &:hover {
             text-decoration: underline;
             font-weight: bold;
         }
     }
 
-    .delete{
+    .delete {
         margin: 6px;
         font-size: small;
         width: 70px;
@@ -56,11 +55,37 @@ $red: #db534b;
         display: flex;
         justify-content: center;
         align-items: center;
-        &:hover{
+        &:hover {
             color: black;
             font-weight: bold;
             border: 2px solid white;
             border-radius: 5px;
+        }
+    }
+
+    .add {
+        width: 500px;
+        display: flex;
+        margin-top: 1.5em;
+        input {
+            width: 90%;
+            background-color: #f7f7f9;
+            border: none;
+            padding: 1em;
+            &::placeholder {
+                opacity: 80%;
+            }
+        }
+        button {
+            width: 50px;
+            border: none;
+            background-color: inherit;
+            font-variant-caps: all-small-caps;
+            margin: 1em;
+            &:hover {
+                text-decoration: underline;
+                font-weight: bold;
+            }
         }
     }
 }

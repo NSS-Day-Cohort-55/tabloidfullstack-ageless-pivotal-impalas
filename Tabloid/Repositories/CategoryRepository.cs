@@ -32,5 +32,21 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        public void Add(string name) 
+        {
+            var conn = Connection;
+            {
+                conn.Open();
+                {
+                    var cmd = conn.CreateCommand();
+                    cmd.CommandText = @"INSERT INTO
+                                        Category(Name)
+                                        VALUES (@Name)";
+                    cmd.Parameters.AddWithValue("Name", name);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

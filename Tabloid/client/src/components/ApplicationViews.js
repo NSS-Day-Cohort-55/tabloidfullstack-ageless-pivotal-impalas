@@ -9,6 +9,7 @@ import { TagEdit } from "./Tag/TagEdit";
 import { TagDelete } from './Tag/TagDelete';
 import { PostList } from "./Post/PostList";
 import { AllCategoriesList } from "./Category/AllCategoriesList";
+import { MyPostList } from "./Post/MyPostList";
 import { PostDetails } from "./Post/PostDetails";
 import {ReactionForm} from "./Reaction/ReactionForm";
 
@@ -25,6 +26,7 @@ export default function ApplicationViews({ isLoggedIn }) {
             <Route index element={<PostList />} />
             <Route path=":id" element={<PostDetails />} />
           </Route>
+          <Route path="myposts" element={<MyPostList/>}></Route>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="tag" element={<TagList />} />

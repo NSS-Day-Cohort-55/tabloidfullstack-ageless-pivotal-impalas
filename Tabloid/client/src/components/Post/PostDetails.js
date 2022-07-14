@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getPostById, addReactionToPost, getReactionPostList } from "../../modules/postManager";
 import { getAllReactions } from "../../modules/reactionManager";
+import { getPostById } from "../../modules/postManager";
+import { getPostTagsByPostId } from "../../modules/postTagManager";
 import "./PostDetails.css";
 
 export const PostDetails = () => {
     const [post, setPost] = useState();
+    const [tags, setTags] = useState([])
     const { id } = useParams()
     const [reactions, setReactions] = useState([]);
     const [postReactions, setPostReactions] = useState([]);
@@ -26,6 +29,12 @@ export const PostDetails = () => {
         });
         getReactionPostList().then((data) => setPostReactions(data));
     }, []);
+
+    useEffect(() => {
+        if (post != undefined) {
+            getPostTagsByPostId(post.id).then(data => setTags(data))
+        }
+    }, [post])
 
     return (
         <>
@@ -58,6 +67,11 @@ export const PostDetails = () => {
                 <div className="d-flex justify-content-center">{post?.imageLocation ? <img src={`${post.imageLocation}`} alt="banner" /> : ''}</div>
                 <h1 className="center black-text">{post?.title.toUpperCase()}</h1>
                 <h3 className="center red-text">{post?.category.name}</h3>
+                <p className="grey-text"><em>tags: {tags?.map((t, index) => {
+                    return (
+                        (index ? ', ' : '') + t.name
+                    )
+                })} </em></p>
                 <div className="d-flex justify-content-between">
                     <p className="grey-text">{post?.userProfile.displayName}</p>
                     <p className="grey-text">{post?.publishDateTime}</p>

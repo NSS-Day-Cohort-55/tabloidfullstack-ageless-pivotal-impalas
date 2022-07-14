@@ -46,6 +46,10 @@ export default function Header({ isLoggedIn }) {
                 </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/categories" className={({ isActive }) => "nav-link" + (isActive ? "active" : "inactive")}>Categories</NavLink>
+                  <NavLink tag={RRNavLink} to="myposts">My Posts</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/categories">Categories</NavLink>
                 </NavItem>
                 <NavItem>
                   <a aria-current="page" className="nav-link"
@@ -57,10 +61,10 @@ export default function Header({ isLoggedIn }) {
             {!isLoggedIn &&
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/login" className={({ isActive }) => "nav-link" + (isActive ? " active" : "inactive")}>Login</NavLink>
+                  <NavLink tag={RRNavLink} to="/login">Login</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/register" className={({ isActive }) => "nav-link" + (isActive ? " active" : "inactive")}>Register</NavLink>
+                  <NavLink tag={RRNavLink} to="/register">Register</NavLink>
                 </NavItem>
                 
               </>

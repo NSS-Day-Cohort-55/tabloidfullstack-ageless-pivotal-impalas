@@ -108,6 +108,7 @@ namespace Tabloid.Repositories
             }
         }
 
+<<<<<<< HEAD
         public void AddPostReaction(PostReaction postReaction)
         {
             using (var conn = Connection)
@@ -155,6 +156,50 @@ namespace Tabloid.Repositories
         }
 
 
+=======
+        public List<Post> GetAllByUserId(int id)
+        {
+            var conn = Connection;
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                {
+                    cmd.CommandText = @"SELECT Post.Id, Title, Content, ImageLocation, CreateDateTime, 
+                                        PublishDateTime, IsApproved, CategoryId, UserProfileId, Name
+                                        FROM Post
+                                        JOIN Category on Post.CategoryId = Category.Id
+                                        WHERE UserProfileId = 1";
+                    cmd.Parameters.AddWithValue("Id", id);
+                    var reader = cmd.ExecuteReader();
+
+                    List<Post> postList = new();
+                    while(reader.Read())
+                    {
+                        Post post = new()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title")),
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            ImageLocation = reader.GetString(reader.GetOrdinal("ImageLocation")),
+
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDatetime")),
+                            IsApproved = true,
+                            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                            Category = new Category()
+                            {
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
+                        };
+
+                        postList.Add(post);
+                    }
+                    return postList;
+                }
+            }
+        }
+>>>>>>> main
         public void Add(Post post)
         {
             throw new NotImplementedException();
