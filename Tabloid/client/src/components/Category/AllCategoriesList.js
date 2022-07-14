@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import userEvent from "@testing-library/user-event";
+import React, { useEffect, useState, useRef } from "react";
 import { getAllCategories, addCategory, deleteCategory } from "../../modules/catManager";
 import './AllCategoriesList.scss'
 
@@ -22,6 +23,15 @@ export const AllCategoriesList = () => {
         deleteCategory(event.target.value).then(() => getAllCategories().then((data) => setCategories(data)))
     }
 
+    const inputEl = useRef(null)
+    const onButtonClick = () => {
+        console.log(inputEl.current)
+    }
+
+    const updateCat = () => {
+
+    }
+
     return (
         <>
             <section className="all-categories-list">
@@ -29,7 +39,7 @@ export const AllCategoriesList = () => {
                 <h3>CATEGORY MANAGEMENT</h3>
                 {categories.map(c => {
                     return (
-                        <div className="item" key={c.id}>{c.name} <div className="button-container"><button className="edit">EDIT</button><button className="delete" value={c.id} onClick={deleteCat}>DELETE</button></div></div>
+                        <div className="item" key={c.id} ref={inputEl}>{c.name} <div className="button-container" id={c.id}><button className="edit" onClick={onButtonClick}>EDIT</button><button className="delete" value={c.id} onClick={deleteCat}>DELETE</button></div></div>
                     )
                 })}
                 <section className="add">
