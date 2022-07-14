@@ -41,11 +41,13 @@ namespace Tabloid.Controllers
             }
             return Ok(post);
         }
+
         [HttpGet("PostReaction")]
         public IActionResult PostReaction()
         {
             return Ok(_postRepository.GetPostReactions());
         }
+        
         [HttpPost("PostReaction")]
         public IActionResult PostReaction(PostReaction postReaction)
         {
@@ -54,10 +56,26 @@ namespace Tabloid.Controllers
             _postRepository.AddPostReaction(postReaction);
             return Ok();
         }
+        
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+        
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            post.IsApproved = true;
+            if (post.PublishDateTime <= DateTime.MinValue)
+            {
+                post.PublishDateTime = DateTime.Now;
+            }
+            post.CreateDateTime = DateTime.Now;
+            _postRepository.Add(post);
+
+            return CreatedAtAction("GetById", new { id = post.Id }, post);
+
         }
     }
 }
