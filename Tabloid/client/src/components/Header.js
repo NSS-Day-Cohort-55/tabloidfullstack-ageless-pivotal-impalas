@@ -36,17 +36,19 @@ export default function Header({ isLoggedIn }) {
             {isLoggedIn &&
               <>
               <NavItem>
-                  <NavLink tag={RRNavLink} to="/Tag">Tags</NavLink>
+                  <NavLink tag={RRNavLink} to="/tag">Tags</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="posts">Posts</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="myposts">My Posts</NavLink>
+                  <NavLink tag={RRNavLink} to="reaction">Reactions</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/categories">Categories</NavLink>
+                  <NavLink tag={RRNavLink} to="/categories" className={({ isActive }) => "nav-link" + (isActive ? "active" : "inactive")}>Categories</NavLink>
+                  <NavLink tag={RRNavLink} to="myposts">My Posts</NavLink>
                 </NavItem>
+                
                 <NavItem>
                   <a aria-current="page" className="nav-link"
                     style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
