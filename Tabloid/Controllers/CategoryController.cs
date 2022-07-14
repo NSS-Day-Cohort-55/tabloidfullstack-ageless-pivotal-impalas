@@ -50,8 +50,9 @@ namespace Tabloid.Controllers
 
         // PUT api/<CategoryController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, string name)
         {
+            _categoryRepository.Update(id, name);   
         }
     }
 }
