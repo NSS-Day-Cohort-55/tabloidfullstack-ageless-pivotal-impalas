@@ -13,6 +13,7 @@ export const getPostById = (id) => {
     return fetch(`${_apiUrl}/${id}`).then(res => res.json())
 }
 
+
 export const addReactionToPost = (postReaction) => {
     return getToken().then((token) => {
         return fetch(`${_apiUrl}/postReaction`, {
@@ -52,3 +53,13 @@ export const editPost = (post) => {
         body: JSON.stringify(post),
     });
 };
+export const addPost = (post) => {
+    return fetch(`${_apiUrl}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(post)
+    }).then(response => response.json())
+}
+
