@@ -43,6 +43,10 @@ namespace Tabloid.Controllers
         public IActionResult Post(Post post)
         {
             post.IsApproved = true;
+            if (post.PublishDateTime <= DateTime.MinValue)
+            {
+                post.PublishDateTime = DateTime.Now;
+            }
             post.CreateDateTime = DateTime.Now;
             _postRepository.Add(post);
 

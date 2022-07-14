@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import firebase from "firebase/app";
 import { getAllCategories } from '../../modules/catManager';
 import { addPost } from '../../modules/postManager';
+import { getUserByFirebaseId } from '../../modules/authManager';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -10,18 +13,16 @@ export const CreatePostform = () => {
         title: '',
         content: '',
         categoryId: '',
-        imageLocation: '',
-        publishDateTime: ''
     })
+    const [currentUser, setCurrentUser] = useState()
     const [categories, setCategories] = useState();
+    const navigate = useNavigate();
 
 
     const handleCreatePost = (event) => {
         event.preventDefault();
-        
-        post.userId = 
-
-        addPost(post).then(r => console.log(r))
+        post.userProfileId = currentUser.id
+        addPost(post).then(r => navigate(`/posts/${r.id}`))
     }
 
     const handleInputChange = (event) => {
@@ -37,6 +38,7 @@ export const CreatePostform = () => {
 
     useEffect(() => {
         getCategories()
+        getUserByFirebaseId().then(r => setCurrentUser(r))
     }, [])
 
     return (

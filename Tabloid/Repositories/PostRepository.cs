@@ -124,7 +124,7 @@ namespace Tabloid.Repositories
                     var reader = cmd.ExecuteReader();
 
                     List<Post> postList = new();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Post post = new()
                         {
