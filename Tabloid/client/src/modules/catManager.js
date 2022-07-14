@@ -19,3 +19,14 @@ export const deleteCategory = id => {
             method: 'DELETE'
         })
 } 
+
+
+export const editCategory = (id, name) => {
+    return fetch(`${api}/${id}`,
+    {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+}
