@@ -108,6 +108,53 @@ namespace Tabloid.Repositories
             }
         }
 
+        public void AddPostReaction(PostReaction postReaction)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO PostReaction (PostId, ReactionId, UserProfileId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@postId, @reactionId, @userProfileId)";
+                    DbUtils.AddParameter(cmd, "@postId", postReaction.PostId);
+                    DbUtils.AddParameter(cmd, "@reactionId", postReaction.ReactionId);
+                    DbUtils.AddParameter(cmd, "@userProfileId", postReaction.UserProfileId);
+
+                    postReaction.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public List<PostReaction> GetPostReactions()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, ReactionId, PostId, UserProfileId 
+                                        FROM PostReaction";
+                    var reader = cmd.ExecuteReader();
+                    List<PostReaction> postReactions = new List<PostReaction>();
+                    while (reader.Read())
+                    {
+                        PostReaction postReaction = new PostReaction
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            ReactionId = DbUtils.GetInt(reader, "ReactionId"),
+                            PostId = DbUtils.GetInt(reader, "PostId")
+                        };
+                        postReactions.Add(postReaction);
+                    }
+                    conn.Close();
+                    return postReactions;
+                }
+            }
+        }
+
+
         public List<Post> GetAllByUserId(int id)
         {
             var conn = Connection;
@@ -124,7 +171,7 @@ namespace Tabloid.Repositories
                     var reader = cmd.ExecuteReader();
 
                     List<Post> postList = new();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Post post = new()
                         {
@@ -152,7 +199,29 @@ namespace Tabloid.Repositories
         }
         public void Add(Post post)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Post (Title, Content, ImageLocation, 
+                                                          CreateDateTime, PublishDateTime, IsApproved,
+                                                          CategoryId, UserProfileId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@title, @content, @imagelocation, @createDateTime, @publishDateTime,
+                                                @isApproved, @categoryId, @userProfileId)";
+                    DbUtils.AddParameter(cmd, "@title", post.Title);
+                    DbUtils.AddParameter(cmd, "@content", post.Content);
+                    DbUtils.AddParameter(cmd, "@imagelocation", post.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@createDateTime", post.CreateDateTime);
+                    DbUtils.AddParameter(cmd, "@publishDateTime", post.PublishDateTime);
+                    DbUtils.AddParameter(cmd, "@isApproved", post.IsApproved);
+                    DbUtils.AddParameter(cmd, "@categoryId", post.CategoryId);
+                    DbUtils.AddParameter(cmd, "@userProfileId", post.UserProfileId);
+
+                    post.Id = (int)cmd.ExecuteScalar();
+                }
+            }
         }
 
         public void Edit(Post post)

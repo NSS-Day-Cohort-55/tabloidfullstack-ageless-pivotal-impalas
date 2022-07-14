@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getPostById } from "../../modules/postManager";
 import { getPostTagsByPostId, CheckIfPtExists, addPt } from "../../modules/postTagManager";
+import { getPostById, addReactionToPost, getReactionPostList } from "../../modules/postManager";
+import { getAllReactions } from "../../modules/reactionManager";
+import { ReactionForm } from "../Reaction/ReactionForm";
 import "./PostDetails.css";
 import { getAllTags } from "../../modules/tagManager";
 
@@ -11,7 +13,8 @@ export const PostDetails = () => {
     const [tagList, setTagList] = useState([])
     const [selectedTag, setselectedTag] = useState("0")
     const { id } = useParams()
-
+    const [reactions, setReactions] = useState([]);
+    const [postReactions, setPostReactions] = useState([]);
     const getPost = () => {
         getPostById(id).then(postFromApi => setPost(formatPost(postFromApi)))
     }
@@ -29,6 +32,10 @@ export const PostDetails = () => {
     useEffect(() => {
         getPost()
         getTags()
+        getAllReactions().then((data) => {
+            setReactions(data);
+        });
+        getReactionPostList().then((data) => setPostReactions(data));
     }, []);
 
     useEffect(() => {
@@ -63,6 +70,7 @@ export const PostDetails = () => {
 
     return (
         <>
+
             <div className="container justify-content-center">
                 <div className="d-flex justify-content-center">{post?.imageLocation ? <img src={`${post.imageLocation}`} alt="banner" /> : ''}</div>
                 <h1 className="center black-text">{post?.title.toUpperCase()}</h1>
@@ -89,6 +97,34 @@ export const PostDetails = () => {
                     </select>
                     <button onClick={addTag}>add</button>
                 </p>
+
+                <div className="reactionList">
+
+                    {reactions.map((r) => {
+                        return (
+                            <button
+                                key={r.id}
+                                onClick={() => {
+                                    const copy = {
+                                        postId: post.id,
+                                        reactionId: r.id,
+                                    };
+                                    addReactionToPost(copy).then(() => {
+                                        getReactionPostList().then((data) => setPostReactions(data));
+                                    });
+                                }}
+                            >
+                                <img src={r.imageLocation} />
+                                {
+                                    postReactions.filter(
+                                        (react) => react.reactionId === r.id && react.postId === post.id
+                                    ).length
+                                }
+                            </button>)
+
+                    })}
+                </div>
+
             </div>
         </>
     )
