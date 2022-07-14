@@ -10,5 +10,7 @@ namespace Tabloid.Repositories
         void Edit(Post post);
         List<Post> GetAll();
         Post GetById(int id);
+        void AddPostReaction(PostReaction postReaction);
+        List<PostReaction> GetPostReactions();
     }
 }

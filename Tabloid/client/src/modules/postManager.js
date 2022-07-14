@@ -1,4 +1,6 @@
+import { getToken } from "./authManager";
 const _apiUrl = "/api/post";
+
 
 export const getAllPosts = () => {
     return fetch(`${_apiUrl}`).then(res => res.json())
@@ -7,3 +9,33 @@ export const getAllPosts = () => {
 export const getPostById = (id) => {
     return fetch(`${_apiUrl}/${id}`).then(res => res.json())
 }
+
+export const addReactionToPost = (postReaction) => {
+    return getToken().then((token) => {
+        return fetch(`${_apiUrl}/postReaction`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(postReaction)
+        })
+    })
+}
+
+export const getReactionPostList = () => {
+    return getToken().then((token) => {
+        return fetch(`${_apiUrl}/postReaction`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error("Unknow error getting postReactionList")
+            }
+        });
+    });
+};
