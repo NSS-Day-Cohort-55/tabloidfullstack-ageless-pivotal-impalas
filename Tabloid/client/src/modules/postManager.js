@@ -44,6 +44,15 @@ export const getReactionPostList = () => {
     });
 };
 
+export const editPost = (post) => {
+    return fetch(`${_apiUrl}/${post.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(post),
+    });
+};
 export const addPost = (post) => {
     return fetch(`${_apiUrl}`, {
         method: "POST",
