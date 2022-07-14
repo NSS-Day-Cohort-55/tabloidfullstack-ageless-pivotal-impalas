@@ -48,5 +48,19 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        public void Delete(int id)
+        {
+            var conn = Connection;
+            {
+                conn.Open();
+                {
+                    var cmd = conn.CreateCommand();
+                    cmd.CommandText = @"DELETE FROM Category WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("Id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

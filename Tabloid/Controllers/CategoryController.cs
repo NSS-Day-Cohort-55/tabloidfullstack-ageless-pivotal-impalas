@@ -35,6 +35,12 @@ namespace Tabloid.Controllers
             return "value";
         }
 
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _categoryRepository.Delete(id);
+        }
+
         // POST api/<CategoryController>
         [HttpPost]
         public void Post(string name)
@@ -45,12 +51,6 @@ namespace Tabloid.Controllers
         // PUT api/<CategoryController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<CategoryController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
         {
         }
     }

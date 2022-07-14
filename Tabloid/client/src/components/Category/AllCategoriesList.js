@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllCategories, addCategory } from "../../modules/catManager";
+import { getAllCategories, addCategory, deleteCategory } from "../../modules/catManager";
 import './AllCategoriesList.scss'
 
 export const AllCategoriesList = () => {
@@ -18,6 +18,10 @@ export const AllCategoriesList = () => {
         addCategory(newCategory).then(getAllCategories().then(data => setCategories(data))).then(() => setNewCategory(""))
     }
 
+    const deleteCat = event => {
+        deleteCategory(event.target.value).then(() => getAllCategories().then((data) => setCategories(data)))
+    }
+
     return (
         <>
             <section className="all-categories-list">
@@ -25,7 +29,7 @@ export const AllCategoriesList = () => {
                 <h3>CATEGORY MANAGEMENT</h3>
                 {categories.map(c => {
                     return (
-                        <div className="item" key={c.id}>{c.name} <div className="button-container"><button className="edit">EDIT</button><button className="delete">DELETE</button></div></div>
+                        <div className="item" key={c.id}>{c.name} <div className="button-container"><button className="edit">EDIT</button><button className="delete" value={c.id} onClick={deleteCat}>DELETE</button></div></div>
                     )
                 })}
                 <section className="add">

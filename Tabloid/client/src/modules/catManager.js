@@ -12,3 +12,10 @@ export const addCategory = name => {
         }
     })
 }
+
+export const deleteCategory = id => {
+    return fetch(`${api}/${id}`,
+        {
+            method: 'DELETE'
+        })
+}
