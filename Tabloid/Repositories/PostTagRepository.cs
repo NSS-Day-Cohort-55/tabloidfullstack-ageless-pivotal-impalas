@@ -32,5 +32,45 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        public void Add(PostTag pt)
+        {
+            var conn = Connection;
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                {
+                    cmd.CommandText = @"INSERT INTO PostTag(PostId, TagId) VALUES (@postId, @tagId)";
+                    cmd.Parameters.AddWithValue("postId", pt.PostId);
+                    cmd.Parameters.AddWithValue("tagId", pt.TagId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool CheckIfExists(PostTag pt)
+        {
+            var conn = Connection;
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                {
+                    cmd.CommandText = @"SELECT COUNT(1) as PtCount from posttag where PostId = @postId and TagId = @tagId";
+                    cmd.Parameters.AddWithValue("postId", pt.PostId);
+                    cmd.Parameters.AddWithValue("tagId", pt.TagId);
+
+                    int count = (int)cmd.ExecuteScalar();
+
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }

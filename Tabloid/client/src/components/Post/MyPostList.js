@@ -14,7 +14,6 @@ export const MyPostList = () => {
         <div className="post-container">
             <h1>My Posts</h1>
             {posts.map(post => {
-                console.log(post);
                 return (
                     <div className="post-card" key={post.id}>
                         <img src={post.imageLocation}></img>
