@@ -108,7 +108,6 @@ namespace Tabloid.Repositories
             }
         }
 
-<<<<<<< HEAD
         public void AddPostReaction(PostReaction postReaction)
         {
             using (var conn = Connection)
@@ -156,7 +155,6 @@ namespace Tabloid.Repositories
         }
 
 
-=======
         public List<Post> GetAllByUserId(int id)
         {
             var conn = Connection;
@@ -199,7 +197,6 @@ namespace Tabloid.Repositories
                 }
             }
         }
->>>>>>> main
         public void Add(Post post)
         {
             throw new NotImplementedException();

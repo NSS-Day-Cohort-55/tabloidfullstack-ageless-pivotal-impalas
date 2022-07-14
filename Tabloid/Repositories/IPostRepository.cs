@@ -10,11 +10,8 @@ namespace Tabloid.Repositories
         void Edit(Post post);
         List<Post> GetAll();
         Post GetById(int id);
-<<<<<<< HEAD
         void AddPostReaction(PostReaction postReaction);
         List<PostReaction> GetPostReactions();
-=======
         List<Post> GetAllByUserId(int id);
->>>>>>> main
     }
 }
