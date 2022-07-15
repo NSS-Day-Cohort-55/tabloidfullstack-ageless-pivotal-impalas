@@ -44,15 +44,6 @@ export const getReactionPostList = () => {
     });
 };
 
-export const editPost = (post) => {
-    return fetch(`${_apiUrl}/${post.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(post),
-    });
-};
 export const addPost = (post) => {
     return fetch(`${_apiUrl}`, {
         method: "POST",
@@ -68,8 +59,14 @@ export const editPost = (post) => {
     return fetch(`${_apiUrl}/${post.id}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(post)
-    }).then(r => console.log(r));
+    })
 };
+
+export const deletePost = (id) => {
+    return fetch(`${_apiUrl}/${id}`, {
+        method: "DELETE"
+    })
+}
