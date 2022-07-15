@@ -197,6 +197,58 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        public List<Post> GetAllByCategoryId(int categoryId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT p.Id, Title, Content, p.ImageLocation, 
+                                               p.CreateDateTime, PublishDateTime, IsApproved, 
+                                               CategoryId, UserProfileId, up.DisplayName,
+                                               c.Name AS CategoryName
+                                          FROM Post p
+                                     LEFT JOIN Userprofile up ON p.UserProfileId = up.Id
+                                     LEFT JOIN Category c on p.CategoryId = c.Id
+                                         WHERE IsApproved = 'TRUE'
+                                           AND PublishDateTime < GETDATE()
+                                           AND CategoryId = @categoryId
+                                      ORDER BY PublishDateTime DESC";
+
+                    DbUtils.AddParameter(cmd, "@categoryId", categoryId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        var posts = new List<Post>();
+                        while (reader.Read())
+                        {
+                            posts.Add(new Post()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Title = DbUtils.GetString(reader, "Title"),
+                                Content = DbUtils.GetString(reader, "Content"),
+                                ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                                CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                                PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
+                                IsApproved = reader.GetBoolean(reader.GetOrdinal("IsApproved")),
+                                CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                                UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                                UserProfile = new UserProfile()
+                                {
+                                    DisplayName = DbUtils.GetString(reader, "DisplayName")
+                                },
+                                Category = new Category()
+                                {
+                                    Name = DbUtils.GetString(reader, "CategoryName")
+                                }
+                            });
+                        }
+                        return posts;
+                    }
+                }
+            }
+        }
         public void Add(Post post)
         {
             using (var conn = Connection)

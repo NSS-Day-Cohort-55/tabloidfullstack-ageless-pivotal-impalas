@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tabloid.Models;
 using Tabloid.Repositories;
+using Tabloid.Utils;
 
 namespace Tabloid.Repositories
 {
@@ -43,6 +44,22 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"INSERT INTO PostTag(PostId, TagId) VALUES (@postId, @tagId)";
                     cmd.Parameters.AddWithValue("postId", pt.PostId);
                     cmd.Parameters.AddWithValue("tagId", pt.TagId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(PostTag pt)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM PostTag WHERE postId = @postId AND tagId = @tagId";
+                    DbUtils.AddParameter(cmd, "@postId", pt.PostId);
+                    DbUtils.AddParameter(cmd, "@tagId", pt.TagId);
+
                     cmd.ExecuteNonQuery();
                 }
             }
