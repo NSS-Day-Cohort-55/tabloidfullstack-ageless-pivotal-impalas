@@ -9,6 +9,11 @@ export const getAllPosts = () => {
 export const getAllPostsByUser = (id) => {
     return fetch(`${_apiUrl}/user/${id}`).then(res => res.json())
 }
+
+export const getAllPostsByCategory = (id) => {
+    return fetch(`${_apiUrl}/category/${id}`).then(res => res.json())
+}
+
 export const getPostById = (id) => {
     return fetch(`${_apiUrl}/${id}`).then(res => res.json())
 }
