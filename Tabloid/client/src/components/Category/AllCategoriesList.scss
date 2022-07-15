@@ -43,7 +43,45 @@ $red: #db534b;
         }
     }
 
+    .catEditInput {
+        background-color: #f7f7f9;
+        border: none;
+    }
+
     .delete {
+        margin: 6px;
+        font-size: small;
+        width: 70px;
+        color: white;
+        background-color: $red;
+        border: none;
+        font-variant-caps: all-small-caps;
+        padding: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+            color: black;
+            font-weight: bold;
+            border: 2px solid white;
+            border-radius: 5px;
+        }
+    }
+
+    .save {
+        margin: 6px;
+        font-size: small;
+        border: none;
+        background-color: inherit;
+        font-weight: 400;
+        font-variant-caps: all-small-caps;
+        &:hover {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+    }
+
+    .cancel {
         margin: 6px;
         font-size: small;
         width: 70px;
