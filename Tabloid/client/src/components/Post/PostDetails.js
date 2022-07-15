@@ -7,6 +7,7 @@ import "./PostDetails.css";
 import { getAllTags } from "../../modules/tagManager";
 import { Button } from "reactstrap";
 import { getUserByFirebaseId } from "../../modules/authManager";
+import { getCommentsByPost } from "../../modules/commentManager";
 
 export const PostDetails = () => {
     const [post, setPost] = useState();
@@ -17,6 +18,7 @@ export const PostDetails = () => {
     const [postReactions, setPostReactions] = useState([]);
     const [currentUser, setCurrentUser] = useState();
     const [deleteClicked, setDeleteClicked] = useState(false);
+    const [postComments, setPostComments] = useState([])
 
     const { id } = useParams()
     const navigate = useNavigate()
@@ -48,6 +50,7 @@ export const PostDetails = () => {
     useEffect(() => {
         if (post !== undefined) {
             getPostTagsByPostId(post.id).then(data => setCurrentTags(data))
+            getCommentsByPost(post.id).then(data => setPostComments(data))
         }
     }, [post])
 
@@ -174,6 +177,19 @@ export const PostDetails = () => {
                             <Button color="danger" onClick={toggleDeleteClicked}>Delete Post</Button>
                     }
 
+                </div>
+
+                <div>
+                    <h2>Comments</h2>
+                    <input type="text" placeholder="Add a comment"></input>
+                    {postComments.map(c => {
+                        return (
+                            <div key={c.id}>
+                                <h4>{c.subject}</h4>
+                                <p>{c.content}</p>
+                            </div>
+                        )
+                    })}
                 </div>
 
             </div>
