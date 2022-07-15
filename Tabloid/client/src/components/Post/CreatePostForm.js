@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import firebase from "firebase/app";
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { getAllCategories } from '../../modules/catManager';
 import { addPost } from '../../modules/postManager';
 import { getUserByFirebaseId } from '../../modules/authManager';

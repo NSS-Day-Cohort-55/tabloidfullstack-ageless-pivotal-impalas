@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getPostTagsByPostId, CheckIfPtExists, addPt } from "../../modules/postTagManager";
-import { getPostById, addReactionToPost, getReactionPostList } from "../../modules/postManager";
+import { getPostById, addReactionToPost, getReactionPostList, deletePost } from "../../modules/postManager";
 import { getAllReactions } from "../../modules/reactionManager";
-import { ReactionForm } from "../Reaction/ReactionForm";
 import "./PostDetails.css";
 import { getAllTags } from "../../modules/tagManager";
+import { Button } from "reactstrap";
+import { getUserByFirebaseId } from "../../modules/authManager";
+import { getCommentsByPost } from "../../modules/commentManager";
 
 export const PostDetails = () => {
     const [post, setPost] = useState();
     const [currentTags, setCurrentTags] = useState([])
     const [tagList, setTagList] = useState([])
     const [selectedTag, setselectedTag] = useState("0")
-    const { id } = useParams()
     const [reactions, setReactions] = useState([]);
     const [postReactions, setPostReactions] = useState([]);
+    const [currentUser, setCurrentUser] = useState();
+    const [deleteClicked, setDeleteClicked] = useState(false);
+    const [postComments, setPostComments] = useState([])
+
+    const { id } = useParams()
+    const navigate = useNavigate()
+
     const getPost = () => {
         getPostById(id).then(postFromApi => setPost(formatPost(postFromApi)))
     }
@@ -34,18 +42,29 @@ export const PostDetails = () => {
         getTags()
         getAllReactions().then((data) => {
             setReactions(data);
-        });
-        getReactionPostList().then((data) => setPostReactions(data));
+        })
+        getReactionPostList().then((data) => setPostReactions(data))
+        getUserByFirebaseId().then(r => setCurrentUser(r))
     }, []);
 
     useEffect(() => {
         if (post !== undefined) {
             getPostTagsByPostId(post.id).then(data => setCurrentTags(data))
+            getCommentsByPost(post.id).then(data => setPostComments(data))
         }
     }, [post])
 
     const handleInput = event => {
         setselectedTag(event.target.value)
+    }
+
+    const toggleDeleteClicked = () => {
+        deleteClicked ? setDeleteClicked(false) : setDeleteClicked(true)
+    }
+
+    const actualDelete = () => {
+        deletePost(post.id)
+        navigate("/posts")
     }
 
     async function addTag() {
@@ -122,6 +141,33 @@ export const PostDetails = () => {
                                 }
                             </button>)
 
+                    })}
+                </div>
+                <div>
+                    {currentUser?.id !== post?.userProfileId ?
+                        "" :
+                        deleteClicked ?
+                            <>
+                                <p>Are you sure you would like to delete the post</p>
+                                <Button color="danger" onClick={actualDelete}>Delete Post</Button>{' '}
+                                <Button color="secondary" onClick={toggleDeleteClicked}>Cancel</Button>
+                            </>
+                            :
+                            <Button color="danger" onClick={toggleDeleteClicked}>Delete Post</Button>
+                    }
+
+                </div>
+
+                <div>
+                    <h2>Comments</h2>
+                    <input type="text" placeholder="Add a comment"></input>
+                    {postComments.map(c => {
+                        return (
+                            <div key={c.id}>
+                                <h4>{c.subject}</h4>
+                                <p>{c.content}</p>
+                            </div>
+                        )
                     })}
                 </div>
 
