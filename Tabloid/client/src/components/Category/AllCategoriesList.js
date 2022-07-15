@@ -1,18 +1,26 @@
 import userEvent from "@testing-library/user-event";
 import React, { useEffect, useState, useRef } from "react";
-import { getAllCategories, addCategory, deleteCategory, editCategory } from "../../modules/catManager";
+import { getAllCategories, addCategory, deleteCategory, updateCategory } from "../../modules/catManager";
 import './AllCategoriesList.scss'
 
 export const AllCategoriesList = () => {
-    let [categories, setCategories] = useState([])
-    let [newCategory, setNewCategory] = useState("")
+    const [categories, setCategories] = useState([])
+    const [newCategory, setNewCategory] = useState("")
+    const [editCategoryInput, setEditCategoryInput] = useState("")
+    const [isEditing, setIsEditing] = useState(null)
 
     useEffect(() => {
         getAllCategories().then(data => setCategories(data))
     }, [])
 
     const handleInput = event => {
-        setNewCategory(event.target.value)
+        if (event.target.id === "edit") {
+            setEditCategoryInput(event.target.value)
+        }
+        else {
+            setNewCategory(event.target.value)
+        }
+
     }
 
     const add = () => {
@@ -23,14 +31,18 @@ export const AllCategoriesList = () => {
         deleteCategory(event.target.value).then(() => getAllCategories().then((data) => setCategories(data)))
     }
 
-    const inputEl = useRef(null)
-
-    const editCat = () => {
-        console.log(inputEl.current)
+    const setCatToEditing = event => {
+        setIsEditing(parseInt(event.target.id))
+        setEditCategoryInput("")
     }
 
-    const updateCat = () => {
-
+    const catEdit = event => {
+        if (editCategoryInput !== "") {
+            updateCategory(editCategoryInput, event.target.id).then(() => getAllCategories().then((data) => setCategories(data))).then(() => setIsEditing(null)).then(() => setEditCategoryInput(""))
+        }
+        else{
+            window.alert("Please provide a new category name.")
+        }
     }
 
     return (
@@ -40,11 +52,30 @@ export const AllCategoriesList = () => {
                 <h3>CATEGORY MANAGEMENT</h3>
                 {categories.map(c => {
                     return (
-                        <div className="item" key={c.id} ref={inputEl}>{c.name} <div className="button-container" id={c.id}><button className="edit" onClick={editCat}>EDIT</button><button className="delete" value={c.id} onClick={deleteCat}>DELETE</button></div></div>
+                        <div className="item" key={c.id} >
+                            {c.id === isEditing ?
+                                <>
+                                    <input id="edit" value={editCategoryInput} placeholder={c.name} onChange={handleInput} autoFocus />
+                                    <div className="button-container">
+                                        <button className="save" id={c.id} onClick={catEdit}>SAVE</button>
+                                        <button className="cancel" id={0} onClick={setCatToEditing}>CANCEL</button>
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <span id={"item" + c.id}>{c.name}</span>
+                                    <div className="button-container">
+                                        <button className="edit" id={c.id} onClick={setCatToEditing}>EDIT</button>
+                                        <button className="delete" value={c.id} onClick={deleteCat} id={"delete" + c.id}>DELETE</button>
+                                    </div>
+                                </>
+                            }
+
+                        </div>
                     )
                 })}
                 <section className="add">
-                    <input placeholder="Add a new category" value={newCategory} onChange={handleInput}></input>
+                    <input placeholder="Add a new category" value={newCategory} onChange={handleInput} id="add"></input>
                     <button onClick={add}>SAVE</button>
                 </section>
             </section>

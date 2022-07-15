@@ -18,12 +18,10 @@ export const deleteCategory = id => {
         {
             method: 'DELETE'
         })
-} 
+}
 
-
-export const editCategory = (id, name) => {
-    return fetch(`${api}/${id}`,
-    {
+export const updateCategory = (name, id) => {
+    return fetch(`${api}/${id}?name=${name}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

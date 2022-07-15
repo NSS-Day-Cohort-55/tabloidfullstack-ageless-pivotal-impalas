@@ -1,19 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { getPostById, addReactionToPost, getReactionPostList } from "../../modules/postManager";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { getPostTagsByPostId, CheckIfPtExists, addPt } from "../../modules/postTagManager";
+import { getPostById, addReactionToPost, getReactionPostList, deletePost } from "../../modules/postManager";
 import { getAllReactions } from "../../modules/reactionManager";
-import { getPostTagsByPostId } from "../../modules/postTagManager";
-import { ReactionForm } from "../Reaction/ReactionForm";
 import "./PostDetails.css";
+import { getAllTags } from "../../modules/tagManager";
+import { Button } from "reactstrap";
+import { getUserByFirebaseId } from "../../modules/authManager";
+import { getCommentsByPost } from "../../modules/commentManager";
 
 export const PostDetails = () => {
     const [post, setPost] = useState();
-    const [tags, setTags] = useState([])
-    const { id } = useParams()
+    const [currentTags, setCurrentTags] = useState([])
+    const [tagList, setTagList] = useState([])
+    const [selectedTag, setselectedTag] = useState("0")
     const [reactions, setReactions] = useState([]);
     const [postReactions, setPostReactions] = useState([]);
+    const [currentUser, setCurrentUser] = useState();
+    const [deleteClicked, setDeleteClicked] = useState(false);
+    const [postComments, setPostComments] = useState([])
+
+    const { id } = useParams()
+    const navigate = useNavigate()
+
     const getPost = () => {
         getPostById(id).then(postFromApi => setPost(formatPost(postFromApi)))
+    }
+
+    const getTags = () => {
+        getAllTags().then(data => setTagList(data))
     }
 
     const formatPost = (post) => {
@@ -23,27 +38,63 @@ export const PostDetails = () => {
     }
 
     useEffect(() => {
-        getPost();
+        getPost()
+        getTags()
         getAllReactions().then((data) => {
             setReactions(data);
-        });
-        getReactionPostList().then((data) => setPostReactions(data));
+        })
+        getReactionPostList().then((data) => setPostReactions(data))
+        getUserByFirebaseId().then(r => setCurrentUser(r))
     }, []);
 
     useEffect(() => {
-        if (post != undefined) {
-            getPostTagsByPostId(post.id).then(data => setTags(data))
+        if (post !== undefined) {
+            getPostTagsByPostId(post.id).then(data => setCurrentTags(data))
+            getCommentsByPost(post.id).then(data => setPostComments(data))
         }
     }, [post])
 
+    const handleInput = event => {
+        setselectedTag(event.target.value)
+    }
+
+    const toggleDeleteClicked = () => {
+        deleteClicked ? setDeleteClicked(false) : setDeleteClicked(true)
+    }
+
+    const actualDelete = () => {
+        deletePost(post.id)
+        navigate("/posts")
+    }
+
+    async function addTag() {
+        if (selectedTag !== "0") {
+            let alreadyExists = await CheckIfPtExists(post.id, selectedTag).then(data => data)
+            if (alreadyExists) {
+                window.alert("The post already has the selected tag.")
+            }
+            else {
+                let postTag = {
+                    postId: post.id,
+                    tagId: selectedTag
+                }
+                addPt(postTag).then(() => getPostTagsByPostId(post.id)).then(data => setCurrentTags(data))
+            }
+            //use selectedTag and post.Id to create new PostTag and then update currentTags state
+        }
+        else {
+            window.alert("Please select a tag.")
+        }
+    }
+
     return (
         <>
-                
+
             <div className="container justify-content-center">
                 <div className="d-flex justify-content-center">{post?.imageLocation ? <img src={`${post.imageLocation}`} alt="banner" /> : ''}</div>
                 <h1 className="center black-text">{post?.title.toUpperCase()}</h1>
                 <h3 className="center red-text">{post?.category.name}</h3>
-                <p className="grey-text"><em>tags: {tags?.map((t, index) => {
+                <p className="grey-text"><em>tags: {currentTags?.map((t, index) => {
                     return (
                         (index ? ', ' : '') + t.name
                     )
@@ -53,11 +104,23 @@ export const PostDetails = () => {
                     <p className="grey-text">{post?.publishDateTime}</p>
                 </div>
                 <p className="grey-text">{post?.content}</p>
-                
+                <p>
+                    new tag
+                    <select onChange={handleInput}>
+                        <option value="0">---</option>
+                        {tagList.map(t => {
+                            return (
+                                <option key={t.id} value={t.id}>{t.name}</option>
+                            )
+                        })}
+                    </select>
+                    <button onClick={addTag}>add</button>
+                </p>
+
                 <div className="reactionList">
-                    
+
                     {reactions.map((r) => {
-                        return(
+                        return (
                             <button
                                 key={r.id}
                                 onClick={() => {
@@ -77,10 +140,37 @@ export const PostDetails = () => {
                                     ).length
                                 }
                             </button>)
-                        
+
                     })}
                 </div>
-                
+                <div>
+                    {currentUser?.id !== post?.userProfileId ?
+                        "" :
+                        deleteClicked ?
+                            <>
+                                <p>Are you sure you would like to delete the post</p>
+                                <Button color="danger" onClick={actualDelete}>Delete Post</Button>{' '}
+                                <Button color="secondary" onClick={toggleDeleteClicked}>Cancel</Button>
+                            </>
+                            :
+                            <Button color="danger" onClick={toggleDeleteClicked}>Delete Post</Button>
+                    }
+
+                </div>
+
+                <div>
+                    <h2>Comments</h2>
+                    <input type="text" placeholder="Add a comment"></input>
+                    {postComments.map(c => {
+                        return (
+                            <div key={c.id}>
+                                <h4>{c.subject}</h4>
+                                <p>{c.content}</p>
+                            </div>
+                        )
+                    })}
+                </div>
+
             </div>
         </>
     )

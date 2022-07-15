@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tabloid.Repositories;
+using Tabloid.Models;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -39,10 +40,29 @@ namespace Tabloid.Controllers
             return Ok(tags);
         }
 
+        [HttpGet("/postTag/post/{postId}/tag/{tagId}")]
+        public bool CheckIfExists(int postId, int tagId)
+        {
+            PostTag postTag = new PostTag()
+            {
+                PostId = postId,
+                TagId = tagId
+            };
+            if (_ptRepo.CheckIfExists(postTag))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         // POST api/<PostTagController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post(PostTag pt)
         {
+            _ptRepo.Add(pt);
         }
 
         // PUT api/<PostTagController>/5

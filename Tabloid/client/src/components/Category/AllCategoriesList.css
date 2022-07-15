@@ -60,6 +60,11 @@
   font-weight: bold;
 }
 
+.all-categories-list .catEditInput {
+  background-color: #f7f7f9;
+  border: none;
+}
+
 .all-categories-list .delete {
   margin: 6px;
   font-size: small;
@@ -81,6 +86,47 @@
 }
 
 .all-categories-list .delete:hover {
+  color: black;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
+.all-categories-list .save {
+  margin: 6px;
+  font-size: small;
+  border: none;
+  background-color: inherit;
+  font-weight: 400;
+  font-variant-caps: all-small-caps;
+}
+
+.all-categories-list .save:hover {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.all-categories-list .cancel {
+  margin: 6px;
+  font-size: small;
+  width: 70px;
+  color: white;
+  background-color: #db534b;
+  border: none;
+  font-variant-caps: all-small-caps;
+  padding: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.all-categories-list .cancel:hover {
   color: black;
   font-weight: bold;
   border: 2px solid white;
