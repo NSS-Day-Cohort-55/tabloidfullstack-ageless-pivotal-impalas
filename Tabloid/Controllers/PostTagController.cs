@@ -72,9 +72,11 @@ namespace Tabloid.Controllers
         }
 
         // DELETE api/<PostTagController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete(PostTag pt)
         {
+            _ptRepo.Delete(pt);
+            return NoContent();
         }
     }
 }

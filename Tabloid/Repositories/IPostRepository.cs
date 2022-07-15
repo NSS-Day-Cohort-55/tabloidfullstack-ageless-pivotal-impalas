@@ -13,5 +13,7 @@ namespace Tabloid.Repositories
         void AddPostReaction(PostReaction postReaction);
         List<PostReaction> GetPostReactions();
         List<Post> GetAllByUserId(int id);
+        List<Post> GetAllByCategoryId(int categoryId);
+
     }
 }

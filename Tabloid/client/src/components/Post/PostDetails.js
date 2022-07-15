@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { getPostTagsByPostId, CheckIfPtExists, addPt } from "../../modules/postTagManager";
+import { getPostTagsByPostId, CheckIfPtExists, addPt, removePt } from "../../modules/postTagManager";
 import { getPostById, addReactionToPost, getReactionPostList, deletePost } from "../../modules/postManager";
 import { getAllReactions } from "../../modules/reactionManager";
 import "./PostDetails.css";
@@ -57,15 +57,35 @@ export const PostDetails = () => {
     const handleInput = event => {
         setselectedTag(event.target.value)
     }
-
+    
     const toggleDeleteClicked = () => {
         deleteClicked ? setDeleteClicked(false) : setDeleteClicked(true)
     }
-
+    
     const actualDelete = () => {
         deletePost(post.id)
         navigate("/posts")
     }
+    
+    const getPostTags = () => {
+        return getPostTagsByPostId(post.id).then(data => setCurrentTags(data))
+    }
+
+    async function removeTag() {
+        if (selectedTag !== "0") {
+            let alreadyExists = await CheckIfPtExists(post.id, selectedTag).then(data => data)
+            if (alreadyExists) {
+                const postTag = {
+                    postId: post.id,
+                    tagId: selectedTag
+                }
+                removePt(postTag).then(() => getPostTags())
+            } else {
+                window.alert("The post does not contain this tag.  Try adding it first before deleting.")
+            }
+        }
+    }
+
 
     async function addTag() {
         if (selectedTag !== "0") {
@@ -78,7 +98,7 @@ export const PostDetails = () => {
                     postId: post.id,
                     tagId: selectedTag
                 }
-                addPt(postTag).then(() => getPostTagsByPostId(post.id)).then(data => setCurrentTags(data))
+                addPt(postTag).then(() => getPostTags())
             }
             //use selectedTag and post.Id to create new PostTag and then update currentTags state
         }
@@ -115,6 +135,7 @@ export const PostDetails = () => {
                         })}
                     </select>
                     <button onClick={addTag}>add</button>
+                    <button onClick={removeTag}>remove</button>
                 </p>
 
                 <div className="reactionList">

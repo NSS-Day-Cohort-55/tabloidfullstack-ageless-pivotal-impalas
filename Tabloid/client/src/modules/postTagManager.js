@@ -15,6 +15,15 @@ export const addPt = postTag => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(postTag)
-        
+    })
+}
+
+export const removePt = postTag => {
+    return fetch(`/api${url}`, {
+        method: 'Delete',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postTag)
     })
 }

@@ -31,6 +31,12 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetAllByUserId(id));
         }
 
+        [HttpGet("/api/post/category/{id}")]
+        public IActionResult GetAllByCategoryId(int id)
+        {
+            return Ok(_postRepository.GetAllByCategoryId(id));
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
