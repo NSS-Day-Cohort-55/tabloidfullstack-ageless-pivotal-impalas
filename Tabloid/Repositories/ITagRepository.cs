@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Tabloid.Models;
+using Microsoft.Data.SqlClient;
 
 namespace Tabloid.Repositories
 {
@@ -11,5 +12,6 @@ namespace Tabloid.Repositories
         Tag GetTagById(int id);
 
         void Delete(int id);
+        List<Post> GetAllPostsByTag(int tagId);
     }
 }

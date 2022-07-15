@@ -49,5 +49,12 @@ namespace Tabloid.Controllers
             _tagRepository.Delete(id);
             return NoContent();
         }
+
+        [HttpGet("PostByTag/{id}")]
+        public IActionResult GetPostsByTag(int id)
+        {
+            return Ok(_tagRepository.GetAllPostsByTag(id));
+        }
+
     }
 }

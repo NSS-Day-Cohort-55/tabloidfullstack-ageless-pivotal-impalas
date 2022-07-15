@@ -24,6 +24,8 @@ const TagList = () => {
                             <ListGroupItem key={t.id}>
                                 {t.name} <Link to={`/tag/edit/${t.id}`}>Edit</Link>{" "}
                                 <Link to={`/tag/delete/${t.id}`}>Delete</Link>
+                                <Link to={`/tag/PostByTag/${t.id}`}>Search for Posts</Link>
+
                             </ListGroupItem>
                         );
                     })}

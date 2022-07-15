@@ -63,13 +63,4 @@ export const addPost = (post) => {
     }).then(response => response.json())
 }
 
-export const editPost = (post) => {
-    delete post.userProfile
-    return fetch(`${_apiUrl}/${post.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(post)
-    }).then(r => console.log(r));
-};
+

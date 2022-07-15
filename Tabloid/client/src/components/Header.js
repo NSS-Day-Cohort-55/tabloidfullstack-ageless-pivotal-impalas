@@ -19,7 +19,7 @@ export default function Header({ isLoggedIn }) {
   return (
     <div id="nav">
       <Navbar color="dark" light expand="md">
-        <img src='quill-logo.png'></img>
+        {/* <img src='quill-logo.png'></img> */}
         <NavbarBrand tag={RRNavLink} to="/" className="nav-link" activeclassname="active">Tabloid</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
